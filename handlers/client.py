@@ -4,32 +4,10 @@
 #-----------------------------------------------------IMPORTS--------------------------------------------------------------------------------------------
 from aiogram import types, Dispatcher
 from bot import dp
-from keyboard import kb
+from keyboard import kb, inkb
 from database import sqlite_db
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 #--------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-#-----------------------------------------------------kakaya-to huyna, skoro uberu--------------------------------------------------------------------------------------------
-'''   urlkb = InlineKeyboardMarkup(row_width=1)
-    urlbut0 = InlineKeyboardButton(text='link0', url='https://example.com')
-    urlbut2 = InlineKeyboardButton(text='link', url='https://t.me/ntiban')
-    textbut0 = InlineKeyboardButton(text='button0', callback_data='data1')'''
-
-'''@dp.message_handler(lambda message: '!links' in message.text)
-async def urllinktest(message: types.Message):
-    await message.reply('Here you are:', reply_markup=urlkb)'''
-
-inbut = InlineKeyboardButton(text='Press F to Pay Respect', callback_data='prf')
-inbut1 = InlineKeyboardButton(text='What Can You Do?',callback_data='aldolist')
-inbut2 = InlineKeyboardButton(text='Who is your creator?', callback_data='felix')
-inbut3 = InlineKeyboardButton(text='Do NOT Press This Button', callback_data='donot')
-inkb = InlineKeyboardMarkup(row_width=2).add(inbut, inbut1, inbut2, inbut3)
-#urlkb, urlbut0, urlbut2, textbut0 = new_func()
-#urlkb.add(urlbut0, urlbut2, textbut0)
-#--------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 #--------------------------------------------------------------START + STRANGE COMMANDS------------------------------------------------------------------------------------------
 @dp.message_handler(commands=['start'])
