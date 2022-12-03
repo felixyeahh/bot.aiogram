@@ -1,14 +1,8 @@
-# BOT IS NOT WORKING NOW.
-there is no keyboards folder because its too raw
+# my strange bot on aiogram
+[t.me/fyaiogrambot](https://t.me/fyaiogrambot) :shipit:
 
 
-
-
-#### my strange bot on aiogram.
-t.me/fyaiogrambot :shipit:
-
-
-#todo:
+:electron: #todo:
 - [ ] increase and decrease balance for each participant separately. 
 - [ ] show a list of people who have any money on balance and the amount of money. 
 - [x] add and delete tasks from bot 
