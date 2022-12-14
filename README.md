@@ -11,5 +11,6 @@
 
 Don't forget to enter your token in [bot](bot.aiogram/bot.py), change my id to yours in handlers/admin.py and credit contributors if you want to use this code.  :trollface:
 
+[![Theme](https://img.shields.io/badge/Theme-Bot-brightgreen?style=flat-square)](https://core.telegram.org/bots)
 
 :octocat: Version: 0.0.1
