@@ -13,7 +13,7 @@
 
 
 :electron: #todo:
-- [ ] increase and decrease balance for each participant separately. 
+- [x] increase and decrease balance for each participant separately. 
 - [ ] show a list of people who have any money on balance and the amount of money. 
 - [x] add and delete tasks from bot 
 - [x] fix client part and upload keyboards 
