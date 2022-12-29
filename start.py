@@ -26,6 +26,6 @@ async def on_startup(dispatcher: Dispatcher): # ? on-startup
 client.register_client(dp)
 admin.register_admin(dp)
 other.register_other(dp)
-roleplay.register_roleplay(dp)
+
 
 utils.executor.start_polling(dp, skip_updates=True, on_startup=on_startup) # ! starting the bot
