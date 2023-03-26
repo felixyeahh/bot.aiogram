@@ -96,15 +96,13 @@ async def check_balance(user_id : str, engine: object) -> Tuple[bool, str]:
     balance = user.balance
     return balance
 async def add_balance(user_id : str, field_name : str, args: str, engine: object):
-    user = get_user(engine, user_id)
-    if user:
+    if user := get_user(engine, user_id):
         update_user(engine, user_id, field_name, getattr(user, field_name) + int(args))
     else:
         user = create_user(engine, {'user_id': user_id, field_name: int(-args)})
     return
 async def minus_balance(user_id: str, field_name : str, args: str, engine: object):
-    user = get_user(engine, user_id)
-    if user:
+    if user := get_user(engine, user_id):
         update_user(engine, user_id,field_name, getattr(user, field_name) - int(args))
     else:
         user = create_user(engine, {'user_id': user_id, field_name: int(-args)})
@@ -123,21 +121,18 @@ def set_mega_admin(engine: create_engine, user_id: str, value: str) -> bool:
             return False
     return True
 async def megaAdmin(user_id: str, engine: object):
-    user = get_user(engine, user_id) 
-    if user:
+    if user := get_user(engine, user_id):
         check = await check_mega(user_id, engine)
         if check == 'False':
             set_mega_admin(engine, user_id, 'True')
         if check == 'True':
             set_mega_admin(engine, user_id, 'False')
-    else: 
+    else:
         user = create_user(engine, {'user_id': user_id, 'is_admin': 'True'})
     return
 async def check_mega(user_id: str, engine: object) -> str:
-    user = get_user(engine, user_id)
-    if user:
-        admin = user.is_admin
-        return admin
+    if user := get_user(engine, user_id):
+        return user.is_admin
 
 async def sqlrun(message: str): #sqlrun
     msg = message[7:]
@@ -149,36 +144,28 @@ async def sqlrun(message: str): #sqlrun
 async def check_warns(user_id: str, engine: object) -> Tuple[bool, int]:
     user = get_user(engine, user_id)
     warns = user.warns
-    if warns == 3:
-        return True, 0
-    return False, user.warns
+    return (True, 0) if warns == 3 else (False, user.warns)
 def mwb(user_id: str, field_name: str, engine: object) -> int: 
     seconds: int
-    user = get_user(engine, user_id)
-    if user:
+    if user := get_user(engine, user_id):
         update_user(engine, user_id, field_name, getattr(user, field_name) + 1)
-        seconds = (getattr(user, field_name) + 1) * 2
+        return (getattr(user, field_name) + 1) * 2
     else:
         user = create_user(engine, {'user_id': user_id, field_name: 1})
-        seconds = getattr(user, field_name) * 2
-    return seconds
+        return getattr(user, field_name) * 2
 async def unwarn(user_id: str, field_name: str, engine: object):
     seconds: int
-    user = get_user(engine, user_id)
-    if user:
+    if user := get_user(engine, user_id):
         update_user(engine, user_id, field_name, getattr(user, field_name) - 1)
-        seconds = (getattr(user, field_name) - 1) * 32
+        return (getattr(user, field_name) - 1) * 32
     else:
         user = create_user(engine, {'user_id': user_id, field_name: 0})
-        seconds = getattr(user, field_name) * 32
-    return seconds
+        return getattr(user, field_name) * 32
 async def check_warns2(user_id: str, engine: object) -> int:
     user = get_user(engine, user_id)
     return user.warns
 async def check_turkey(user_id: str, engine: object) -> int:
     user = get_user(engine, user_id)
-    if user:
-        return user.turkey
-    else:
+    if not user:
         user = create_user(engine, {'user_id': user_id, 'turkey': '0'})
-        return user.turkey
+    return user.turkey
