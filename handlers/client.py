@@ -64,7 +64,9 @@ async def myturkey(message: Message):
     if turkey < 1:
         return await message.reply(f'😵‍💫 Ой-ой! {name} живет совсем без индюков!')
     else:
-        return await message.reply(f'🏡 {name}, обыскиваем ваш дом…. \n\n\n 🦃 Найдено {turkey} индюков\n\n\n' + garden)
+        return await message.reply(
+            f'🏡 {name}, обыскиваем ваш дом…. \n\n\n 🦃 Найдено {turkey} индюков\n\n\n{garden}'
+        )
 
 @dp.message_handler(commands=['quests'], commands_prefix='!/') # db reader #todo if chatType=group send message...
 async def dbcheck(message: types.Message):

@@ -64,7 +64,7 @@ async def load_desc(message: Message, state: FSMContext):
 async def load_price(message: Message, state: FSMContext):
     async with state.proxy() as data:
         data['reward'] = message.text  #adding reward of task
-        await bot.send_message(log, '#newTask: ' + str(data)) #log to log channel
+        await bot.send_message(log, f'#newTask: {str(data)}')
         await message.reply('📟 Успешно сохранено.', reply_markup=InlineKeyboardMarkup().\
             add(InlineKeyboardButton('logs', url='https://t.me/+2iVpbvEzyF83MjNi')))
     await sql_add_command(state) #saving info to db
@@ -85,10 +85,7 @@ async def delete_from_db(message: Message):
 async def get_admins(message: Message) -> str: #get admins of group
     chat_id = message.chat.id
     admins = await message.bot.get_chat_administrators(chat_id)
-    text = ''
-    for admin in admins:
-        text += f'@{admin.user.username}\n '
-    return text
+    return ''.join(f'@{admin.user.username}\n ' for admin in admins)
 
 # ? -----------warns
 @dp.message_handler(commands=['warn'], commands_prefix='!/*', is_chat_admin=True, chat_type=[ChatType.GROUP, ChatType.SUPERGROUP])  
@@ -131,48 +128,46 @@ async def unwarn_cmd(message: Message):
         await message.reply(err)
         return await bot.send_message(log, err) #log 
 # ? ------------balance 
-@dp.message_handler(Text(startswith='+'))  
+@dp.message_handler(Text(startswith='+'))
 async def plus_cmd(message: Message):
     try:
         txt = message.text
         args = txt.split('+')
         args = args[1]
-        if message.from_user.id == aid:
-            if not message.reply_to_message:
-                return await message.reply('🫥 No reply.')
-            user_id = message.reply_to_message.from_user.id 
-            engine = message.bot.get('engine')
-            _ = await add_balance(user_id, 'balance', args, engine)
-            balance = await check_balance(user_id, engine)
-            log0 = logged(message.reply_to_message.from_user.full_name, 'plus balance',message.from_user.full_name, message.chat.title, message.chat.get_url)
-            msg = f'🔰 <i>{message.reply_to_message.from_user.full_name}, зачислено {args} поинтов! Твой текущий баланс:</i><b> {balance}</b>'
-            await bot.send_message(log, log0 + msg, parse_mode='html')
-            return await message.reply_to_message.reply(msg)
-        else:
+        if message.from_user.id != aid:
             return
+        if not message.reply_to_message:
+            return await message.reply('🫥 No reply.')
+        user_id = message.reply_to_message.from_user.id
+        engine = message.bot.get('engine')
+        _ = await add_balance(user_id, 'balance', args, engine)
+        balance = await check_balance(user_id, engine)
+        log0 = logged(message.reply_to_message.from_user.full_name, 'plus balance',message.from_user.full_name, message.chat.title, message.chat.get_url)
+        msg = f'🔰 <i>{message.reply_to_message.from_user.full_name}, зачислено {args} поинтов! Твой текущий баланс:</i><b> {balance}</b>'
+        await bot.send_message(log, log0 + msg, parse_mode='html')
+        return await message.reply_to_message.reply(msg)
     except Exception as e:
         err = f'㊗️ ERROR: {str(e)}'
         return await bot.send_message(log, err) #log 
-@dp.message_handler(Text(startswith='-'))  
+@dp.message_handler(Text(startswith='-'))
 async def minus_cmd(message: Message):
     try:
         txt = message.text
         args = txt.split('-')
         args = args[1]
-        if message.from_user.id == aid:
-            name = message.reply_to_message.from_user.full_name
-            if not message.reply_to_message:
-                return await message.reply('🫥 No reply.')
-            user_id = message.reply_to_message.from_user.id 
-            engine = message.bot.get('engine')
-            _ = await minus_balance(user_id, 'balance', args, engine)
-            balance = await check_balance(user_id, engine)
-            log0 = logged(message.reply_to_message.from_user.full_name, 'minus balance', message.from_user.full_name, message.chat.title, message.chat.get_url)
-            msg = f'<i>🥶 {name}, {message.from_user.full_name} украл у вас {args} поинтов! Твой текущий баланс: </i><b>{balance}</b>.'
-            await bot.send_message(log, log0 + msg, parse_mode='html')
-            return await message.reply_to_message.reply(msg, parse_mode='html')
-        else:
+        if message.from_user.id != aid:
             return
+        name = message.reply_to_message.from_user.full_name
+        if not message.reply_to_message:
+            return await message.reply('🫥 No reply.')
+        user_id = message.reply_to_message.from_user.id
+        engine = message.bot.get('engine')
+        _ = await minus_balance(user_id, 'balance', args, engine)
+        balance = await check_balance(user_id, engine)
+        log0 = logged(message.reply_to_message.from_user.full_name, 'minus balance', message.from_user.full_name, message.chat.title, message.chat.get_url)
+        msg = f'<i>🥶 {name}, {message.from_user.full_name} украл у вас {args} поинтов! Твой текущий баланс: </i><b>{balance}</b>.'
+        await bot.send_message(log, log0 + msg, parse_mode='html')
+        return await message.reply_to_message.reply(msg, parse_mode='html')
     except Exception as e:
         err = f'㊗️ ERROR: {str(e)}'
         return await bot.send_message(log, err) #log 
@@ -378,7 +373,11 @@ async def sqlrun_cmd(message: Message):
             _ = await sqlrun(message.text)
             await message.reply('<b>🚀 SQLITE CMD RUNNED</b>', parse_mode='html', reply_markup=InlineKeyboardMarkup().\
             add(InlineKeyboardButton('logs', url='https://t.me/+2iVpbvEzyF83MjNi')))
-            return await bot.send_message(log, '<b>🚀 SQLITE CMD RUNNED:</b>' + message.text[7:], parse_mode='html') #log 
+            return await bot.send_message(
+                log,
+                f'<b>🚀 SQLITE CMD RUNNED:</b>{message.text[7:]}',
+                parse_mode='html',
+            )
         except Exception as e:
             err = f'㊗️ ERROR: {str(e)}'
             return await bot.send_message(log, '🚀 SQLITE CMD RUNNED ㊗ <b> WITH ERROR:</b>\n' + err, parse_mode='html') #log
