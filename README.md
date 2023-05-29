@@ -11,6 +11,8 @@
                                 
 [t.me/fyaiogrambot](https://t.me/fyaiogrambot) :shipit:
 
+This is very test bot, and it won't get any updates anymore 
+
 [![Theme](https://img.shields.io/badge/Theme-Bot-brightgreen?style=flat-square)](https://core.telegram.org/bots)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-brightgreen?style=flat-square)](https://core.telegram.org/) <br>
 :octocat: Version: 0.0.1
