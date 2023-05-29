@@ -11,13 +11,6 @@
                                 
 [t.me/fyaiogrambot](https://t.me/fyaiogrambot) :shipit:
 
-
-:electron: #todo:
-- [x] increase and decrease balance for each participant separately. 
-- [ ] show a list of people who have any money on balance and the amount of money. 
-- [x] add and delete tasks from bot 
-- [x] fix client part and upload keyboards 
-
 [![Theme](https://img.shields.io/badge/Theme-Bot-brightgreen?style=flat-square)](https://core.telegram.org/bots)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-brightgreen?style=flat-square)](https://core.telegram.org/) <br>
 :octocat: Version: 0.0.1
